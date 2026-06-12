@@ -3,14 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cuervos Mundialistas — Carrera de Posiciones</title>
+<title>Cuervos Mundialistas 🦅</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 1.5rem; }
-  h1 { font-size: 20px; font-weight: 500; margin-bottom: 0.2rem; }
-  .subtitle { font-size: 13px; color: #888; margin-bottom: 1.25rem; }
   .hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 8px; }
-  .date-pill { font-size: 13px; color: #555; background: white; padding: 4px 14px; border-radius: 20px; border: 1px solid #e0e0e0; }
+  h1 { font-size: 20px; font-weight: 500; }
+  .subtitle { font-size: 13px; color: #888; margin-top: 2px; }
+  .date-pill { font-size: 12px; color: #555; background: white; padding: 4px 12px; border-radius: 20px; border: 1px solid #e0e0e0; }
+  .tabs { display: flex; gap: 0; margin-bottom: 1.25rem; border-bottom: 2px solid #e8e8e6; }
+  .tab { font-size: 14px; padding: 8px 20px; cursor: pointer; color: #888; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none; }
+  .tab:hover { color: #1a1a1a; }
+  .tab.active { color: #1a1a1a; font-weight: 500; border-bottom: 2px solid #1a1a1a; }
+  .panel { display: none; }
+  .panel.active { display: block; }
   .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .play-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 16px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 500; }
   .play-btn:hover { background: #f0f0ee; }
@@ -32,6 +38,15 @@
   .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f0f0ee; }
   .li { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
   .ld { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .nac-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .nac-card { background: white; border-radius: 12px; border: 1px solid #eee; padding: 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .nac-bandera { font-size: 48px; line-height: 1; }
+  .nac-nombre { font-size: 15px; font-weight: 500; color: #1a1a1a; }
+  .nac-pais { font-size: 13px; color: #555; }
+  .nac-puntos { font-size: 12px; color: #999; }
+  .nac-doble { font-size: 11px; color: #888; line-height: 1.4; }
+  .nac-sin { font-size: 13px; color: #bbb; }
+  .nac-actualizado { font-size: 12px; color: #aaa; margin-bottom: 1rem; }
 </style>
 </head>
 <body>
@@ -39,26 +54,45 @@
 <div class="hdr">
   <div>
     <h1>Cuervos Mundialistas 🦅</h1>
-    <p class="subtitle">Tabla de posiciones — Mundial 2026</p>
+    <p class="subtitle">Mundial 2026</p>
   </div>
   <span class="date-pill" id="date-pill">—</span>
 </div>
 
-<div class="controls">
-  <button class="play-btn" id="play-btn" onclick="togglePlay()">▶ Animar</button>
-  <div class="timeline" id="timeline"></div>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('posiciones', this)">🏆 Posiciones</button>
+  <button class="tab"        onclick="switchTab('nacionalidades', this)">🌍 Nacionalidades</button>
 </div>
 
-<div class="chart-area">
-  <div id="chart"></div>
-  <div class="legend" id="legend"></div>
+<div class="panel active" id="panel-posiciones">
+  <div class="controls">
+    <button class="play-btn" id="play-btn" onclick="togglePlay()">▶ Animar</button>
+    <div class="timeline" id="timeline"></div>
+  </div>
+  <div class="chart-area">
+    <div id="chart"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</div>
+
+<div class="panel" id="panel-nacionalidades">
+  <p class="nac-actualizado">Actualizado: 2026-06-11 20:13</p>
+  <div class="nac-grid" id="nac-grid"></div>
 </div>
 
 <script>
 const DATA   = [{"fecha": "2026-06-11", "posiciones": [{"Posicion": 1, "Nombre": "Laura", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 1, "Nombre": "Andrea", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 1, "Nombre": "Jose", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 1, "Nombre": "David", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 5, "Nombre": "Luisa", "Puntos": 6, "Partidos_Jugados": 1}, {"Posicion": 5, "Nombre": "Thomas", "Puntos": 6, "Partidos_Jugados": 1}, {"Posicion": 5, "Nombre": "Diego", "Puntos": 6, "Partidos_Jugados": 1}, {"Posicion": 8, "Nombre": "Sergio", "Puntos": 0, "Partidos_Jugados": 1}]}];
 const COLORS = {"Laura": {"fill": "#5DCAA5", "text": "#085041"}, "Andrea": {"fill": "#7F77DD", "text": "#26215C"}, "Jose": {"fill": "#378ADD", "text": "#042C53"}, "David": {"fill": "#D85A30", "text": "#4A1B0C"}, "Luisa": {"fill": "#D4537E", "text": "#4B1528"}, "Thomas": {"fill": "#639922", "text": "#173404"}, "Diego": {"fill": "#BA7517", "text": "#412402"}, "Sergio": {"fill": "#888780", "text": "#2C2C2A"}};
+const NAC    = {"actualizado": "2026-06-11 20:13", "cuervos": [{"nombre": "Luisa", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Laura", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Andrea", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Jose", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Thomas", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 3}, {"pais": "Sudáfrica", "bandera": "🇿🇦", "puntos": 3}], "puntos_max": 3, "sin_datos": false}, {"nombre": "David", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Diego", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Sergio", "nacionalidades": [], "puntos_max": 0, "sin_datos": true}]};
 
 let day = 0, playing = false, iv = null;
+
+function switchTab(name, btn) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("panel-" + name).classList.add("active");
+  btn.classList.add("active");
+}
 
 function fmt(s) {
   const [y,m,d] = s.split("-");
@@ -91,13 +125,11 @@ function render(idx) {
   const snap = DATA[idx];
   const maxP = Math.max(...snap.posiciones.map(p => p.Puntos), 1);
   document.getElementById("date-pill").textContent = fmt(snap.fecha);
-
   const sorted = [...snap.posiciones].sort((a,b) => b.Puntos - a.Puntos);
-
   document.getElementById("chart").innerHTML = sorted.map((p) => {
-    const c   = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
-    const pct = Math.max(Math.round((p.Puntos / maxP) * 100), 5);
-    const m   = medalFor(p.Posicion);
+    const c    = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
+    const pct  = Math.max(Math.round((p.Puntos / maxP) * 100), 5);
+    const m    = medalFor(p.Posicion);
     const prev = prevPos(p.Nombre, idx);
     return `<div class="bar-row">
       <span class="rank" style="background:${m.bg}">${m.icon}</span>
@@ -111,11 +143,9 @@ function render(idx) {
       <span class="pjd">${p.Partidos_Jugados}P</span>
     </div>`;
   }).join("");
-
   document.getElementById("legend").innerHTML = Object.entries(COLORS).map(([n,c]) =>
     `<span class="li"><span class="ld" style="background:${c.fill}"></span>${n}</span>`
   ).join("");
-
   renderTL();
 }
 
@@ -147,7 +177,30 @@ function togglePlay() {
   }
 }
 
+function renderNac() {
+  document.getElementById("nac-grid").innerHTML = NAC.cuervos.map(c => {
+    if (c.sin_datos) {
+      return `<div class="nac-card">
+        <span class="nac-bandera">🏳️</span>
+        <span class="nac-nombre">${c.nombre}</span>
+        <span class="nac-sin">Sin nacionalidad aún</span>
+      </div>`;
+    }
+    const banderas = c.nacionalidades.map(n => n.bandera).join(" ");
+    const paises   = c.nacionalidades.map(n => n.pais).join(" & ");
+    const esDoble  = c.nacionalidades.length > 1;
+    return `<div class="nac-card">
+      <span class="nac-bandera">${banderas}</span>
+      <span class="nac-nombre">${c.nombre}</span>
+      <span class="nac-pais">${paises}</span>
+      <span class="nac-puntos">${c.puntos_max} pts</span>
+      ${esDoble ? '<span class="nac-doble">Doble nacionalidad 🌍</span>' : ''}
+    </div>`;
+  }).join("");
+}
+
 render(0);
+renderNac();
 </script>
 </body>
 </html>
