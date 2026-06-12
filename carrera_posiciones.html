@@ -57,8 +57,6 @@
 <script>
 const DATA   = [{"fecha": "2026-06-11", "posiciones": [{"Posicion": 1, "Nombre": "Laura", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 1, "Nombre": "Andrea", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 1, "Nombre": "Jose", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 1, "Nombre": "David", "Puntos": 9, "Partidos_Jugados": 1}, {"Posicion": 5, "Nombre": "Luisa", "Puntos": 6, "Partidos_Jugados": 1}, {"Posicion": 5, "Nombre": "Thomas", "Puntos": 6, "Partidos_Jugados": 1}, {"Posicion": 5, "Nombre": "Diego", "Puntos": 6, "Partidos_Jugados": 1}, {"Posicion": 8, "Nombre": "Sergio", "Puntos": 0, "Partidos_Jugados": 1}]}];
 const COLORS = {"Laura": {"fill": "#5DCAA5", "text": "#085041"}, "Andrea": {"fill": "#7F77DD", "text": "#26215C"}, "Jose": {"fill": "#378ADD", "text": "#042C53"}, "David": {"fill": "#D85A30", "text": "#4A1B0C"}, "Luisa": {"fill": "#D4537E", "text": "#4B1528"}, "Thomas": {"fill": "#639922", "text": "#173404"}, "Diego": {"fill": "#BA7517", "text": "#412402"}, "Sergio": {"fill": "#888780", "text": "#2C2C2A"}};
-const MEDALS = ["🥇","🥈","🥉"];
-const RANK_BG = ["#FAC775","#D3D1C7","#F0997B"];
 
 let day = 0, playing = false, iv = null;
 
@@ -81,6 +79,14 @@ function medalFor(pos) {
   return { icon: `#${pos}`, bg: "#f0f0ee" };
 }
 
+function moverHTML(curr, prev) {
+  if (prev === null) return '<span class="mover same">—</span>';
+  const d = prev - curr;
+  if (d > 0) return `<span class="mover up">▲${d}</span>`;
+  if (d < 0) return `<span class="mover down">▼${Math.abs(d)}</span>`;
+  return '<span class="mover same">—</span>';
+}
+
 function render(idx) {
   const snap = DATA[idx];
   const maxP = Math.max(...snap.posiciones.map(p => p.Puntos), 1);
@@ -88,14 +94,13 @@ function render(idx) {
 
   const sorted = [...snap.posiciones].sort((a,b) => b.Puntos - a.Puntos);
 
-  document.getElementById("chart").innerHTML = sorted.map((p, i) => {
+  document.getElementById("chart").innerHTML = sorted.map((p) => {
     const c   = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
     const pct = Math.max(Math.round((p.Puntos / maxP) * 100), 5);
-    const medal = i < 3 ? MEDALS[i] : `${i+1}`;
-    const rbg   = i < 3 ? RANK_BG[i] : "#f0f0ee";
-    const prev  = prevPos(p.Nombre, idx);
+    const m   = medalFor(p.Posicion);
+    const prev = prevPos(p.Nombre, idx);
     return `<div class="bar-row">
-      <span class="rank" style="background:${rbg}">${medal}</span>
+      <span class="rank" style="background:${m.bg}">${m.icon}</span>
       <span class="name">${p.Nombre}</span>
       <div class="bar-wrap">
         <div class="bar-fill" style="width:${pct}%;background:${c.fill}">
@@ -142,23 +147,7 @@ function togglePlay() {
   }
 }
 
-render(document.getElementById("chart").innerHTML = sorted.map((p) => {
-  const c   = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
-  const pct = Math.max(Math.round((p.Puntos / maxP) * 100), 5);
-  const m   = medalFor(p.Posicion);
-  const prev = prevPos(p.Nombre, idx);
-  return `<div class="bar-row">
-    <span class="rank" style="background:${m.bg}">${m.icon}</span>
-    <span class="name">${p.Nombre}</span>
-    <div class="bar-wrap">
-      <div class="bar-fill" style="width:${pct}%;background:${c.fill}">
-        <span class="bar-pts" style="color:${c.text}">${p.Puntos}pts</span>
-      </div>
-    </div>
-    ${moverHTML(p.Posicion, prev)}
-    <span class="pjd">${p.Partidos_Jugados}P</span>
-  </div>`;
-}).join("");
+render(0);
 </script>
 </body>
 </html>
