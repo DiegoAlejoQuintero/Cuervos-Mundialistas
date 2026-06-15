@@ -30,17 +30,26 @@
   .dbtn { font-size: 12px; padding: 4px 10px; border-radius: 8px; border: 1px solid #e0e0e0; background: white; color: #888; cursor: pointer; transition: all 0.15s; }
   .dbtn.active { background: #1a1a1a; color: white; border-color: #1a1a1a; font-weight: 500; }
   .chart-area { background: white; border-radius: 12px; padding: 1.25rem; border: 1px solid #eee; }
-  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; height: 38px; }
+
+  /* Leyenda de barras */
+  .bar-legend { display: flex; gap: 14px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .bar-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
+  .bar-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Filas de barra */
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
   .rank { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
   .name { width: 62px; font-size: 13px; font-weight: 500; text-align: right; flex-shrink: 0; color: #1a1a1a; }
-  .bar-wrap { flex: 1; height: 30px; background: #f0f0ee; border-radius: 7px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 7px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; transition: width 0.75s cubic-bezier(.4,0,.2,1); min-width: 44px; }
-  .bar-pts { font-size: 12px; font-weight: 500; }
+  .bar-wrap { flex: 1; height: 30px; background: #f0f0ee; border-radius: 7px; overflow: hidden; display: flex; }
+  .bar-partidos { height: 100%; display: flex; align-items: center; justify-content: flex-end; transition: width 0.75s cubic-bezier(.4,0,.2,1); min-width: 0; }
+  .bar-dreamteam { height: 100%; display: flex; align-items: center; justify-content: center; transition: width 0.75s cubic-bezier(.4,0,.2,1); min-width: 0; background: #D4A017; }
+  .bar-pts { font-size: 11px; font-weight: 600; padding: 0 6px; white-space: nowrap; }
+  .bar-dt-pts { font-size: 10px; font-weight: 600; color: #5a3a00; padding: 0 4px; white-space: nowrap; }
   .mover { font-size: 11px; font-weight: 600; min-width: 28px; text-align: center; flex-shrink: 0; }
   .mover.up { color: #1D9E75; }
   .mover.down { color: #D85A30; }
   .mover.same { color: #aaa; }
-  .pjd { font-size: 11px; color: #999; min-width: 36px; text-align: right; flex-shrink: 0; }
+  .total-pts { font-size: 12px; font-weight: 600; color: #1a1a1a; min-width: 40px; text-align: right; flex-shrink: 0; }
   .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f0f0ee; }
   .li { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
   .ld { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
@@ -107,6 +116,14 @@
     <div class="timeline" id="timeline"></div>
   </div>
   <div class="chart-area">
+    <div class="bar-legend">
+      <span class="bar-legend-item">
+        <span class="bar-legend-dot" style="background:#888780"></span> Puntos partidos
+      </span>
+      <span class="bar-legend-item">
+        <span class="bar-legend-dot" style="background:#D4A017"></span> Dream Team
+      </span>
+    </div>
     <div id="chart"></div>
     <div class="legend" id="legend"></div>
   </div>
@@ -114,13 +131,13 @@
 
 <!-- Panel: Nacionalidades -->
 <div class="panel" id="panel-nacionalidades">
-  <p class="nac-actualizado">Actualizado: 2026-06-15 14:00</p>
+  <p class="nac-actualizado">Actualizado: 2026-06-15 14:14</p>
   <div class="nac-grid" id="nac-grid"></div>
 </div>
 
 <!-- Panel: Disputados -->
 <div class="panel" id="panel-disputados">
-  <p class="dis-intro">Los equipos con <strong>8/8 votos</strong> (unánimes) están omitidos. Aquí solo los <strong>disputados</strong>: entre 1 y 7 votos. Los cuervos iluminados en verde votaron por el equipo.</p>
+  <p class="dis-intro">Los equipos con <strong>8/8 votos</strong> (unánimes) están omitidos. Aquí solo los <strong>disputados</strong>: entre 1 y 7 votos.</p>
   <div class="dis-meta">
     <span class="dis-badge">Cuervos: <b id="ptotal"></b></span>
     <span class="dis-badge">Equipos disputados: <b id="dtotal"></b></span>
@@ -133,9 +150,9 @@
 </div>
 
 <script>
-const DATA        = [{"fecha": "2026-06-11", "posiciones": [{"Posicion": 1, "Nombre": "Luisa", "Puntos": 12, "Partidos_Jugados": 2}, {"Posicion": 1, "Nombre": "Laura", "Puntos": 12, "Partidos_Jugados": 2}, {"Posicion": 1, "Nombre": "Andrea", "Puntos": 12, "Partidos_Jugados": 2}, {"Posicion": 1, "Nombre": "Jose", "Puntos": 12, "Partidos_Jugados": 2}, {"Posicion": 1, "Nombre": "Thomas", "Puntos": 12, "Partidos_Jugados": 2}, {"Posicion": 1, "Nombre": "David", "Puntos": 12, "Partidos_Jugados": 2}, {"Posicion": 7, "Nombre": "Diego", "Puntos": 9, "Partidos_Jugados": 2}, {"Posicion": 8, "Nombre": "Sergio", "Puntos": 3, "Partidos_Jugados": 2}]}, {"fecha": "2026-06-12", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos": 24, "Partidos_Jugados": 4}, {"Posicion": 2, "Nombre": "Laura", "Puntos": 21, "Partidos_Jugados": 4}, {"Posicion": 2, "Nombre": "David", "Puntos": 21, "Partidos_Jugados": 4}, {"Posicion": 4, "Nombre": "Sergio", "Puntos": 20, "Partidos_Jugados": 4}, {"Posicion": 5, "Nombre": "Thomas", "Puntos": 18, "Partidos_Jugados": 4}, {"Posicion": 5, "Nombre": "Jose", "Puntos": 18, "Partidos_Jugados": 4}, {"Posicion": 7, "Nombre": "Luisa", "Puntos": 15, "Partidos_Jugados": 4}, {"Posicion": 8, "Nombre": "Diego", "Puntos": 12, "Partidos_Jugados": 4}]}, {"fecha": "2026-06-13", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos": 44, "Partidos_Jugados": 7}, {"Posicion": 2, "Nombre": "Thomas", "Puntos": 38, "Partidos_Jugados": 6}, {"Posicion": 3, "Nombre": "David", "Puntos": 33, "Partidos_Jugados": 7}, {"Posicion": 3, "Nombre": "Laura", "Puntos": 33, "Partidos_Jugados": 7}, {"Posicion": 5, "Nombre": "Jose", "Puntos": 27, "Partidos_Jugados": 7}, {"Posicion": 6, "Nombre": "Sergio", "Puntos": 26, "Partidos_Jugados": 7}, {"Posicion": 7, "Nombre": "Luisa", "Puntos": 24, "Partidos_Jugados": 7}, {"Posicion": 8, "Nombre": "Diego", "Puntos": 21, "Partidos_Jugados": 7}]}, {"fecha": "2026-06-14", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos": 65, "Partidos_Jugados": 12}, {"Posicion": 2, "Nombre": "Luisa", "Puntos": 47, "Partidos_Jugados": 12}, {"Posicion": 3, "Nombre": "Laura", "Puntos": 45, "Partidos_Jugados": 12}, {"Posicion": 3, "Nombre": "David", "Puntos": 45, "Partidos_Jugados": 12}, {"Posicion": 5, "Nombre": "Thomas", "Puntos": 44, "Partidos_Jugados": 11}, {"Posicion": 6, "Nombre": "Jose", "Puntos": 36, "Partidos_Jugados": 12}, {"Posicion": 6, "Nombre": "Diego", "Puntos": 36, "Partidos_Jugados": 12}, {"Posicion": 8, "Nombre": "Sergio", "Puntos": 35, "Partidos_Jugados": 12}]}, {"fecha": "2026-06-15", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos": 65, "Partidos_Jugados": 13}, {"Posicion": 2, "Nombre": "Luisa", "Puntos": 50, "Partidos_Jugados": 13}, {"Posicion": 3, "Nombre": "Laura", "Puntos": 48, "Partidos_Jugados": 13}, {"Posicion": 3, "Nombre": "David", "Puntos": 48, "Partidos_Jugados": 13}, {"Posicion": 5, "Nombre": "Thomas", "Puntos": 44, "Partidos_Jugados": 12}, {"Posicion": 6, "Nombre": "Diego", "Puntos": 39, "Partidos_Jugados": 13}, {"Posicion": 7, "Nombre": "Jose", "Puntos": 36, "Partidos_Jugados": 12}, {"Posicion": 8, "Nombre": "Sergio", "Puntos": 35, "Partidos_Jugados": 12}]}];
+const DATA        = [{"fecha": "2026-06-11", "posiciones": [{"Posicion": 1, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-12", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 4, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-13", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-14", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-15", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 65, "Puntos_Partidos": 65, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Laura", "Puntos_Totales": 51, "Puntos_Partidos": 48, "Puntos_DreamTeam": 3}, {"Posicion": 3, "Nombre": "Luisa", "Puntos_Totales": 50, "Puntos_Partidos": 50, "Puntos_DreamTeam": 0}, {"Posicion": 4, "Nombre": "David", "Puntos_Totales": 48, "Puntos_Partidos": 48, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 44, "Puntos_Partidos": 44, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Diego", "Puntos_Totales": 39, "Puntos_Partidos": 39, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Sergio", "Puntos_Totales": 38, "Puntos_Partidos": 35, "Puntos_DreamTeam": 3}, {"Posicion": 8, "Nombre": "Jose", "Puntos_Totales": 36, "Puntos_Partidos": 36, "Puntos_DreamTeam": 0}]}];
 const COLORS      = {"Laura": {"fill": "#5DCAA5", "text": "#085041"}, "Andrea": {"fill": "#7F77DD", "text": "#26215C"}, "Jose": {"fill": "#378ADD", "text": "#042C53"}, "David": {"fill": "#D85A30", "text": "#4A1B0C"}, "Luisa": {"fill": "#D4537E", "text": "#4B1528"}, "Thomas": {"fill": "#639922", "text": "#173404"}, "Diego": {"fill": "#BA7517", "text": "#412402"}, "Sergio": {"fill": "#888780", "text": "#2C2C2A"}};
-const NAC         = {"actualizado": "2026-06-15 14:00", "cuervos": [{"nombre": "Luisa", "nacionalidades": [{"pais": "Países Bajos", "bandera": "🇳🇱", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Laura", "nacionalidades": [{"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Andrea", "nacionalidades": [{"pais": "Catar", "bandera": "🇶🇦", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Jose", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Thomas", "nacionalidades": [{"pais": "Brasil", "bandera": "🇧🇷", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "David", "nacionalidades": [{"pais": "Canadá", "bandera": "🇨🇦", "puntos": 6}, {"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Diego", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Sergio", "nacionalidades": [{"pais": "Estados Unidos", "bandera": "🇺🇸", "puntos": 11}], "puntos_max": 11, "sin_datos": false}]};
+const NAC         = {"actualizado": "2026-06-15 14:14", "cuervos": [{"nombre": "Luisa", "nacionalidades": [{"pais": "Países Bajos", "bandera": "🇳🇱", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Laura", "nacionalidades": [{"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Andrea", "nacionalidades": [{"pais": "Catar", "bandera": "🇶🇦", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Jose", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Thomas", "nacionalidades": [{"pais": "Brasil", "bandera": "🇧🇷", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "David", "nacionalidades": [{"pais": "Canadá", "bandera": "🇨🇦", "puntos": 6}, {"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Diego", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Sergio", "nacionalidades": [{"pais": "Estados Unidos", "bandera": "🇺🇸", "puntos": 11}], "puntos_max": 11, "sin_datos": false}]};
 const DISPUTADOS  = {"participants": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Thom", "Sergio"], "groups": [{"group": "Grupo A", "teams": [{"team": "Corea del Sur", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom"]}, {"team": "Chequia", "count": 3, "voters": ["Diego", "David", "Thom"]}, {"team": "Surafrica", "count": 3, "voters": ["Andrea", "Laura", "Sergio"]}]}, {"group": "Grupo B", "teams": [{"team": "Canada", "count": 7, "voters": ["Diego", "David", "jose", "Andrea", "Laura", "Thom", "Sergio"]}, {"team": "Suiza", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom"]}, {"team": "Qatar", "count": 5, "voters": ["Morrigan", "Andrea", "Laura", "Thom", "Sergio"]}, {"team": "Bosnia", "count": 4, "voters": ["Diego", "David", "Morrigan", "jose"]}]}, {"group": "Grupo C", "teams": [{"team": "Marruecos", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom", "Sergio"]}, {"team": "Escocia", "count": 5, "voters": ["Diego", "Morrigan", "jose", "Thom", "Sergio"]}, {"team": "Haiti", "count": 2, "voters": ["Andrea", "Laura"]}]}, {"group": "Grupo D", "teams": [{"team": "Turquia", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura"]}, {"team": "Paraguay", "count": 4, "voters": ["jose", "Andrea", "Thom", "Sergio"]}, {"team": "Australia", "count": 3, "voters": ["Laura", "Thom", "Sergio"]}]}, {"group": "Grupo E", "teams": [{"team": "Costa de Marfil", "count": 6, "voters": ["Diego", "David", "Morrigan", "Andrea", "Laura", "Thom"]}]}, {"group": "Grupo F", "teams": [{"team": "Suecia", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Sergio"]}]}, {"group": "Grupo G", "teams": [{"team": "Egipto", "count": 6, "voters": ["Diego", "David", "Morrigan", "Laura", "Thom", "Sergio"]}, {"team": "Nueva Zelanda", "count": 4, "voters": ["jose", "Andrea", "Laura", "Sergio"]}, {"team": "Iran", "count": 3, "voters": ["Morrigan", "jose", "Thom"]}]}, {"group": "Grupo H", "teams": [{"team": "Arabia Saudi", "count": 3, "voters": ["Morrigan", "Laura", "Sergio"]}]}, {"group": "Grupo I", "teams": [{"team": "Senegal", "count": 7, "voters": ["Diego", "David", "Morrigan", "Andrea", "Laura", "Thom", "Sergio"]}]}, {"group": "Grupo J", "teams": [{"team": "Austria", "count": 6, "voters": ["Diego", "David", "jose", "Andrea", "Laura", "Sergio"]}, {"team": "Argelia", "count": 3, "voters": ["David", "jose", "Andrea"]}, {"team": "Jordania", "count": 3, "voters": ["Morrigan", "Thom", "Sergio"]}]}, {"group": "Grupo K", "teams": [{"team": "RD Congo", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Laura", "Sergio"]}]}, {"group": "Grupo L", "teams": [{"team": "Croacia", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Thom"]}, {"team": "Ghana", "count": 4, "voters": ["Diego", "David", "jose", "Thom"]}, {"team": "Panama", "count": 2, "voters": ["Laura", "Sergio"]}]}], "omitted": ["Mexico", "Brasil", "USA", "Alemania", "Ecuador", "Paises Bajos", "Japón", "Belgica", "España", "Uruguay", "Francia", "Noruega", "Argentina", "Portugal", "Colombia", "Inglaterra"]};
 
 let day = 0, playing = false, iv = null;
@@ -172,33 +189,51 @@ function moverHTML(curr, prev) {
   if (d < 0) return `<span class="mover down">▼${Math.abs(d)}</span>`;
   return '<span class="mover same">—</span>';
 }
+
 function render(idx) {
   const snap = DATA[idx];
-  const maxP = Math.max(...snap.posiciones.map(p => p.Puntos), 1);
+  const maxP = Math.max(...snap.posiciones.map(p => p.Puntos_Totales || p.Puntos || 0), 1);
   document.getElementById("date-pill").textContent = fmt(snap.fecha);
-  const sorted = [...snap.posiciones].sort((a,b) => b.Puntos - a.Puntos);
+  const sorted = [...snap.posiciones].sort((a,b) =>
+    (b.Puntos_Totales||b.Puntos||0) - (a.Puntos_Totales||a.Puntos||0)
+  );
+
   document.getElementById("chart").innerHTML = sorted.map((p) => {
-    const c    = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
-    const pct  = Math.max(Math.round((p.Puntos / maxP) * 100), 5);
-    const m    = medalFor(p.Posicion);
-    const prev = prevPos(p.Nombre, idx);
+    const c       = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
+    const total   = p.Puntos_Totales || p.Puntos || 0;
+    const partidos = p.Puntos_Partidos || total;
+    const dt      = p.Puntos_DreamTeam || 0;
+    const pctP    = Math.max(Math.round((partidos / maxP) * 100), total > 0 ? 4 : 0);
+    const pctDT   = Math.round((dt / maxP) * 100);
+    const m       = medalFor(p.Posicion);
+    const prev    = prevPos(p.Nombre, idx);
+
+    const dtSection = dt > 0
+      ? `<div class="bar-dreamteam" style="width:${pctDT}%">
+           <span class="bar-dt-pts">⭐${dt}</span>
+         </div>`
+      : "";
+
     return `<div class="bar-row">
       <span class="rank" style="background:${m.bg}">${m.icon}</span>
       <span class="name">${p.Nombre}</span>
       <div class="bar-wrap">
-        <div class="bar-fill" style="width:${pct}%;background:${c.fill}">
-          <span class="bar-pts" style="color:${c.text}">${p.Puntos}pts</span>
+        <div class="bar-partidos" style="width:${pctP}%;background:${c.fill}">
+          <span class="bar-pts" style="color:${c.text}">${partidos}</span>
         </div>
+        ${dtSection}
       </div>
       ${moverHTML(p.Posicion, prev)}
-      <span class="pjd">${p.Partidos_Jugados}P</span>
+      <span class="total-pts">${total}pts</span>
     </div>`;
   }).join("");
+
   document.getElementById("legend").innerHTML = Object.entries(COLORS).map(([n,c]) =>
     `<span class="li"><span class="ld" style="background:${c.fill}"></span>${n}</span>`
   ).join("");
   renderTL();
 }
+
 function renderTL() {
   document.getElementById("timeline").innerHTML = DATA.map((d,i) =>
     `<button class="dbtn${i===day?" active":""}" onclick="goTo(${i})">${fmt(d.fecha)}</button>`
@@ -214,14 +249,11 @@ function togglePlay() {
       day = (day + 1) % DATA.length;
       render(day);
       if (day === DATA.length - 1) {
-        playing = false;
-        btn.textContent = "▶ Animar";
-        clearInterval(iv);
+        playing = false; btn.textContent = "▶ Animar"; clearInterval(iv);
       }
     }, 1400);
   } else {
-    btn.textContent = "▶ Animar";
-    clearInterval(iv);
+    btn.textContent = "▶ Animar"; clearInterval(iv);
   }
 }
 
@@ -254,10 +286,8 @@ function renderDisputados() {
   const total = order.length;
   document.getElementById("ptotal").textContent  = total;
   document.getElementById("omitlist").textContent = DISPUTADOS.omitted.join(" · ");
-
   let disputed = 0;
   const wrap = document.getElementById("dis-groups");
-
   DISPUTADOS.groups.forEach(g => {
     if (!g.teams.length) return;
     const letter   = g.group.split(" ").pop();
@@ -267,19 +297,17 @@ function renderDisputados() {
       <span class="dis-group-tag">Grupo ${letter}</span>
       <span class="dis-group-sub">${g.teams.length} ${teamWord} disputado${g.teams.length>1?"s":""}</span>
     </div>`;
-
     g.teams.forEach(t => {
       disputed++;
       const voters = new Set(t.voters);
       const pct    = Math.round((t.count / total) * 100);
       const perch  = order.map(n => {
         const v = voters.has(n);
-        return `<span class="dis-slot ${v?"voted":"no"}">
+        return `<span class="dis-slot ${v?"voted":"no'}">
           <span class="dis-mark"></span>
           <span class="dis-nm">${n}</span>
         </span>`;
       }).join("");
-
       const div = document.createElement("div");
       div.className = "dis-team";
       div.innerHTML = `
@@ -293,7 +321,6 @@ function renderDisputados() {
     });
     wrap.appendChild(sec);
   });
-
   document.getElementById("dtotal").textContent = disputed;
 }
 
