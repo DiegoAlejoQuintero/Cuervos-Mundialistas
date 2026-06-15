@@ -7,22 +7,16 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 1.5rem; }
-
-  /* Header */
   .hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 8px; }
   h1 { font-size: 20px; font-weight: 500; }
   .subtitle { font-size: 13px; color: #888; margin-top: 2px; }
   .date-pill { font-size: 12px; color: #555; background: white; padding: 4px 12px; border-radius: 20px; border: 1px solid #e0e0e0; }
-
-  /* Tabs */
   .tabs { display: flex; gap: 0; margin-bottom: 1.25rem; border-bottom: 2px solid #e8e8e6; overflow-x: auto; }
   .tab { font-size: 14px; padding: 8px 18px; cursor: pointer; color: #888; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none; white-space: nowrap; }
   .tab:hover { color: #1a1a1a; }
   .tab.active { color: #1a1a1a; font-weight: 500; border-bottom: 2px solid #1a1a1a; }
   .panel { display: none; }
   .panel.active { display: block; }
-
-  /* Posiciones */
   .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .play-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 16px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 500; }
   .play-btn:hover { background: #f0f0ee; }
@@ -30,19 +24,15 @@
   .dbtn { font-size: 12px; padding: 4px 10px; border-radius: 8px; border: 1px solid #e0e0e0; background: white; color: #888; cursor: pointer; transition: all 0.15s; }
   .dbtn.active { background: #1a1a1a; color: white; border-color: #1a1a1a; font-weight: 500; }
   .chart-area { background: white; border-radius: 12px; padding: 1.25rem; border: 1px solid #eee; }
-
-  /* Leyenda de barras */
   .bar-legend { display: flex; gap: 14px; margin-bottom: 1rem; flex-wrap: wrap; }
   .bar-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
   .bar-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-
-  /* Filas de barra */
   .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
   .rank { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
   .name { width: 62px; font-size: 13px; font-weight: 500; text-align: right; flex-shrink: 0; color: #1a1a1a; }
   .bar-wrap { flex: 1; height: 30px; background: #f0f0ee; border-radius: 7px; overflow: hidden; display: flex; }
-  .bar-partidos { height: 100%; display: flex; align-items: center; justify-content: flex-end; transition: width 0.75s cubic-bezier(.4,0,.2,1); min-width: 0; }
-  .bar-dreamteam { height: 100%; display: flex; align-items: center; justify-content: center; transition: width 0.75s cubic-bezier(.4,0,.2,1); min-width: 0; background: #D4A017; }
+  .bar-partidos { height: 100%; display: flex; align-items: center; justify-content: flex-end; transition: width 0.75s cubic-bezier(.4,0,.2,1); }
+  .bar-dreamteam { height: 100%; display: flex; align-items: center; justify-content: center; transition: width 0.75s cubic-bezier(.4,0,.2,1); background: #D4A017; }
   .bar-pts { font-size: 11px; font-weight: 600; padding: 0 6px; white-space: nowrap; }
   .bar-dt-pts { font-size: 10px; font-weight: 600; color: #5a3a00; padding: 0 4px; white-space: nowrap; }
   .mover { font-size: 11px; font-weight: 600; min-width: 28px; text-align: center; flex-shrink: 0; }
@@ -53,8 +43,6 @@
   .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f0f0ee; }
   .li { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
   .ld { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-
-  /* Nacionalidades */
   .nac-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
   .nac-card { background: white; border-radius: 12px; border: 1px solid #eee; padding: 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
   .nac-bandera { font-size: 48px; line-height: 1; }
@@ -64,8 +52,6 @@
   .nac-doble { font-size: 11px; color: #888; line-height: 1.4; }
   .nac-sin { font-size: 13px; color: #bbb; }
   .nac-actualizado { font-size: 12px; color: #aaa; margin-bottom: 1rem; }
-
-  /* Disputados */
   .dis-intro { font-size: 13px; color: #666; margin-bottom: 1rem; line-height: 1.6; }
   .dis-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; }
   .dis-badge { font-size: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 20px; padding: 4px 12px; color: #555; }
@@ -82,7 +68,7 @@
   .dis-count small { display: block; font-size: 10px; font-weight: 500; letter-spacing: .1em; color: #aaa; text-transform: uppercase; margin-top: 2px; }
   .dis-team-name { font-size: 18px; font-weight: 600; flex: 1; }
   .dis-bar-bg { height: 4px; background: #f0f0ee; border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
-  .dis-bar-fill { height: 100%; border-radius: 4px; background: #1a1a1a; transition: width 0.5s ease; }
+  .dis-bar-fill { height: 100%; border-radius: 4px; background: #1a1a1a; }
   .dis-perch { display: flex; flex-wrap: wrap; gap: 6px; }
   .dis-slot { display: flex; align-items: center; gap: 6px; padding: 4px 10px 4px 7px; border-radius: 999px; font-size: 12px; border: 1px solid #e8e8e6; }
   .dis-slot .dis-mark { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -94,22 +80,16 @@
 </style>
 </head>
 <body>
-
 <div class="hdr">
-  <div>
-    <h1>Cuervos Mundialistas 🦅</h1>
-    <p class="subtitle">Mundial 2026</p>
-  </div>
+  <div><h1>Cuervos Mundialistas 🦅</h1><p class="subtitle">Mundial 2026</p></div>
   <span class="date-pill" id="date-pill">—</span>
 </div>
-
 <div class="tabs">
   <button class="tab active" onclick="switchTab('posiciones', this)">🏆 Posiciones</button>
   <button class="tab"        onclick="switchTab('nacionalidades', this)">🌍 Nacionalidades</button>
   <button class="tab"        onclick="switchTab('disputados', this)">⚔️ Disputados</button>
 </div>
 
-<!-- Panel: Posiciones -->
 <div class="panel active" id="panel-posiciones">
   <div class="controls">
     <button class="play-btn" id="play-btn" onclick="togglePlay()">▶ Animar</button>
@@ -117,47 +97,37 @@
   </div>
   <div class="chart-area">
     <div class="bar-legend">
-      <span class="bar-legend-item">
-        <span class="bar-legend-dot" style="background:#888780"></span> Puntos partidos
-      </span>
-      <span class="bar-legend-item">
-        <span class="bar-legend-dot" style="background:#D4A017"></span> Dream Team
-      </span>
+      <span class="bar-legend-item"><span class="bar-legend-dot" style="background:#888780"></span>Puntos partidos</span>
+      <span class="bar-legend-item"><span class="bar-legend-dot" style="background:#D4A017"></span>Dream Team ⭐</span>
     </div>
     <div id="chart"></div>
     <div class="legend" id="legend"></div>
   </div>
 </div>
 
-<!-- Panel: Nacionalidades -->
 <div class="panel" id="panel-nacionalidades">
-  <p class="nac-actualizado">Actualizado: 2026-06-15 14:15</p>
+  <p class="nac-actualizado">Actualizado: 2026-06-15 14:30</p>
   <div class="nac-grid" id="nac-grid"></div>
 </div>
 
-<!-- Panel: Disputados -->
 <div class="panel" id="panel-disputados">
-  <p class="dis-intro">Los equipos con <strong>8/8 votos</strong> (unánimes) están omitidos. Aquí solo los <strong>disputados</strong>: entre 1 y 7 votos.</p>
+  <p class="dis-intro">Los equipos con <strong>8/8 votos</strong> están omitidos. Aquí solo los <strong>disputados</strong>: entre 1 y 7 votos.</p>
   <div class="dis-meta">
     <span class="dis-badge">Cuervos: <b id="ptotal"></b></span>
     <span class="dis-badge">Equipos disputados: <b id="dtotal"></b></span>
   </div>
-  <div class="omit-box">
-    <strong>Omitidos por unanimidad (8/8):</strong>
-    <span id="omitlist"></span>
-  </div>
+  <div class="omit-box"><strong>Omitidos por unanimidad (8/8):</strong><span id="omitlist"></span></div>
   <div class="dis-groups" id="dis-groups"></div>
 </div>
 
 <script>
-const DATA        = [{"fecha": "2026-06-11", "posiciones": [{"Posicion": 1, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-12", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 4, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-13", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-14", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Luisa", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "Laura", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "David", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Jose", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Diego", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Sergio", "Puntos_Totales": 0, "Puntos_Partidos": 0, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-15", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 65, "Puntos_Partidos": 65, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Laura", "Puntos_Totales": 51, "Puntos_Partidos": 48, "Puntos_DreamTeam": 3}, {"Posicion": 3, "Nombre": "Luisa", "Puntos_Totales": 50, "Puntos_Partidos": 50, "Puntos_DreamTeam": 0}, {"Posicion": 4, "Nombre": "David", "Puntos_Totales": 48, "Puntos_Partidos": 48, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 44, "Puntos_Partidos": 44, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Diego", "Puntos_Totales": 39, "Puntos_Partidos": 39, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Sergio", "Puntos_Totales": 38, "Puntos_Partidos": 35, "Puntos_DreamTeam": 3}, {"Posicion": 8, "Nombre": "Jose", "Puntos_Totales": 36, "Puntos_Partidos": 36, "Puntos_DreamTeam": 0}]}];
-const COLORS      = {"Laura": {"fill": "#5DCAA5", "text": "#085041"}, "Andrea": {"fill": "#7F77DD", "text": "#26215C"}, "Jose": {"fill": "#378ADD", "text": "#042C53"}, "David": {"fill": "#D85A30", "text": "#4A1B0C"}, "Luisa": {"fill": "#D4537E", "text": "#4B1528"}, "Thomas": {"fill": "#639922", "text": "#173404"}, "Diego": {"fill": "#BA7517", "text": "#412402"}, "Sergio": {"fill": "#888780", "text": "#2C2C2A"}};
-const NAC         = {"actualizado": "2026-06-15 14:15", "cuervos": [{"nombre": "Luisa", "nacionalidades": [{"pais": "Países Bajos", "bandera": "🇳🇱", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Laura", "nacionalidades": [{"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Andrea", "nacionalidades": [{"pais": "Catar", "bandera": "🇶🇦", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Jose", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Thomas", "nacionalidades": [{"pais": "Brasil", "bandera": "🇧🇷", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "David", "nacionalidades": [{"pais": "Canadá", "bandera": "🇨🇦", "puntos": 6}, {"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Diego", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Sergio", "nacionalidades": [{"pais": "Estados Unidos", "bandera": "🇺🇸", "puntos": 11}], "puntos_max": 11, "sin_datos": false}]};
-const DISPUTADOS  = {"participants": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Thom", "Sergio"], "groups": [{"group": "Grupo A", "teams": [{"team": "Corea del Sur", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom"]}, {"team": "Chequia", "count": 3, "voters": ["Diego", "David", "Thom"]}, {"team": "Surafrica", "count": 3, "voters": ["Andrea", "Laura", "Sergio"]}]}, {"group": "Grupo B", "teams": [{"team": "Canada", "count": 7, "voters": ["Diego", "David", "jose", "Andrea", "Laura", "Thom", "Sergio"]}, {"team": "Suiza", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom"]}, {"team": "Qatar", "count": 5, "voters": ["Morrigan", "Andrea", "Laura", "Thom", "Sergio"]}, {"team": "Bosnia", "count": 4, "voters": ["Diego", "David", "Morrigan", "jose"]}]}, {"group": "Grupo C", "teams": [{"team": "Marruecos", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom", "Sergio"]}, {"team": "Escocia", "count": 5, "voters": ["Diego", "Morrigan", "jose", "Thom", "Sergio"]}, {"team": "Haiti", "count": 2, "voters": ["Andrea", "Laura"]}]}, {"group": "Grupo D", "teams": [{"team": "Turquia", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura"]}, {"team": "Paraguay", "count": 4, "voters": ["jose", "Andrea", "Thom", "Sergio"]}, {"team": "Australia", "count": 3, "voters": ["Laura", "Thom", "Sergio"]}]}, {"group": "Grupo E", "teams": [{"team": "Costa de Marfil", "count": 6, "voters": ["Diego", "David", "Morrigan", "Andrea", "Laura", "Thom"]}]}, {"group": "Grupo F", "teams": [{"team": "Suecia", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Sergio"]}]}, {"group": "Grupo G", "teams": [{"team": "Egipto", "count": 6, "voters": ["Diego", "David", "Morrigan", "Laura", "Thom", "Sergio"]}, {"team": "Nueva Zelanda", "count": 4, "voters": ["jose", "Andrea", "Laura", "Sergio"]}, {"team": "Iran", "count": 3, "voters": ["Morrigan", "jose", "Thom"]}]}, {"group": "Grupo H", "teams": [{"team": "Arabia Saudi", "count": 3, "voters": ["Morrigan", "Laura", "Sergio"]}]}, {"group": "Grupo I", "teams": [{"team": "Senegal", "count": 7, "voters": ["Diego", "David", "Morrigan", "Andrea", "Laura", "Thom", "Sergio"]}]}, {"group": "Grupo J", "teams": [{"team": "Austria", "count": 6, "voters": ["Diego", "David", "jose", "Andrea", "Laura", "Sergio"]}, {"team": "Argelia", "count": 3, "voters": ["David", "jose", "Andrea"]}, {"team": "Jordania", "count": 3, "voters": ["Morrigan", "Thom", "Sergio"]}]}, {"group": "Grupo K", "teams": [{"team": "RD Congo", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Laura", "Sergio"]}]}, {"group": "Grupo L", "teams": [{"team": "Croacia", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Thom"]}, {"team": "Ghana", "count": 4, "voters": ["Diego", "David", "jose", "Thom"]}, {"team": "Panama", "count": 2, "voters": ["Laura", "Sergio"]}]}], "omitted": ["Mexico", "Brasil", "USA", "Alemania", "Ecuador", "Paises Bajos", "Japón", "Belgica", "España", "Uruguay", "Francia", "Noruega", "Argentina", "Portugal", "Colombia", "Inglaterra"]};
+const DATA       = [{"fecha": "2026-06-11", "posiciones": [{"Posicion": 1, "Nombre": "Luisa", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Laura", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Jose", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "Thomas", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}, {"Posicion": 1, "Nombre": "David", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Diego", "Puntos_Totales": 9, "Puntos_Partidos": 9, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Sergio", "Puntos_Totales": 3, "Puntos_Partidos": 3, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-12", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 24, "Puntos_Partidos": 24, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Laura", "Puntos_Totales": 21, "Puntos_Partidos": 21, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "David", "Puntos_Totales": 21, "Puntos_Partidos": 21, "Puntos_DreamTeam": 0}, {"Posicion": 4, "Nombre": "Sergio", "Puntos_Totales": 20, "Puntos_Partidos": 20, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 18, "Puntos_Partidos": 18, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Jose", "Puntos_Totales": 18, "Puntos_Partidos": 18, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Luisa", "Puntos_Totales": 15, "Puntos_Partidos": 15, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Diego", "Puntos_Totales": 12, "Puntos_Partidos": 12, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-13", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 44, "Puntos_Partidos": 44, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Thomas", "Puntos_Totales": 38, "Puntos_Partidos": 38, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "David", "Puntos_Totales": 33, "Puntos_Partidos": 33, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "Laura", "Puntos_Totales": 33, "Puntos_Partidos": 33, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Jose", "Puntos_Totales": 27, "Puntos_Partidos": 27, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Sergio", "Puntos_Totales": 26, "Puntos_Partidos": 26, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Luisa", "Puntos_Totales": 24, "Puntos_Partidos": 24, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Diego", "Puntos_Totales": 21, "Puntos_Partidos": 21, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-14", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 65, "Puntos_Partidos": 65, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Luisa", "Puntos_Totales": 47, "Puntos_Partidos": 47, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "Laura", "Puntos_Totales": 45, "Puntos_Partidos": 45, "Puntos_DreamTeam": 0}, {"Posicion": 3, "Nombre": "David", "Puntos_Totales": 45, "Puntos_Partidos": 45, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 44, "Puntos_Partidos": 44, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Jose", "Puntos_Totales": 36, "Puntos_Partidos": 36, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Diego", "Puntos_Totales": 36, "Puntos_Partidos": 36, "Puntos_DreamTeam": 0}, {"Posicion": 8, "Nombre": "Sergio", "Puntos_Totales": 35, "Puntos_Partidos": 35, "Puntos_DreamTeam": 0}]}, {"fecha": "2026-06-15", "posiciones": [{"Posicion": 1, "Nombre": "Andrea", "Puntos_Totales": 65, "Puntos_Partidos": 65, "Puntos_DreamTeam": 0}, {"Posicion": 2, "Nombre": "Laura", "Puntos_Totales": 51, "Puntos_Partidos": 48, "Puntos_DreamTeam": 3}, {"Posicion": 3, "Nombre": "Luisa", "Puntos_Totales": 50, "Puntos_Partidos": 50, "Puntos_DreamTeam": 0}, {"Posicion": 4, "Nombre": "David", "Puntos_Totales": 48, "Puntos_Partidos": 48, "Puntos_DreamTeam": 0}, {"Posicion": 5, "Nombre": "Thomas", "Puntos_Totales": 44, "Puntos_Partidos": 44, "Puntos_DreamTeam": 0}, {"Posicion": 6, "Nombre": "Diego", "Puntos_Totales": 39, "Puntos_Partidos": 39, "Puntos_DreamTeam": 0}, {"Posicion": 7, "Nombre": "Sergio", "Puntos_Totales": 38, "Puntos_Partidos": 35, "Puntos_DreamTeam": 3}, {"Posicion": 8, "Nombre": "Jose", "Puntos_Totales": 36, "Puntos_Partidos": 36, "Puntos_DreamTeam": 0}]}];
+const COLORS     = {"Laura": {"fill": "#5DCAA5", "text": "#085041"}, "Andrea": {"fill": "#7F77DD", "text": "#26215C"}, "Jose": {"fill": "#378ADD", "text": "#042C53"}, "David": {"fill": "#D85A30", "text": "#4A1B0C"}, "Luisa": {"fill": "#D4537E", "text": "#4B1528"}, "Thomas": {"fill": "#639922", "text": "#173404"}, "Diego": {"fill": "#BA7517", "text": "#412402"}, "Sergio": {"fill": "#888780", "text": "#2C2C2A"}};
+const NAC        = {"actualizado": "2026-06-15 14:30", "cuervos": [{"nombre": "Luisa", "nacionalidades": [{"pais": "Países Bajos", "bandera": "🇳🇱", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Laura", "nacionalidades": [{"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Andrea", "nacionalidades": [{"pais": "Catar", "bandera": "🇶🇦", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "Jose", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Thomas", "nacionalidades": [{"pais": "Brasil", "bandera": "🇧🇷", "puntos": 11}], "puntos_max": 11, "sin_datos": false}, {"nombre": "David", "nacionalidades": [{"pais": "Canadá", "bandera": "🇨🇦", "puntos": 6}, {"pais": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "puntos": 6}, {"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Diego", "nacionalidades": [{"pais": "México", "bandera": "🇲🇽", "puntos": 6}], "puntos_max": 6, "sin_datos": false}, {"nombre": "Sergio", "nacionalidades": [{"pais": "Estados Unidos", "bandera": "🇺🇸", "puntos": 11}], "puntos_max": 11, "sin_datos": false}]};
+const DISPUTADOS = {"participants": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Thom", "Sergio"], "groups": [{"group": "Grupo A", "teams": [{"team": "Corea del Sur", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom"]}, {"team": "Chequia", "count": 3, "voters": ["Diego", "David", "Thom"]}, {"team": "Surafrica", "count": 3, "voters": ["Andrea", "Laura", "Sergio"]}]}, {"group": "Grupo B", "teams": [{"team": "Canada", "count": 7, "voters": ["Diego", "David", "jose", "Andrea", "Laura", "Thom", "Sergio"]}, {"team": "Suiza", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom"]}, {"team": "Qatar", "count": 5, "voters": ["Morrigan", "Andrea", "Laura", "Thom", "Sergio"]}, {"team": "Bosnia", "count": 4, "voters": ["Diego", "David", "Morrigan", "jose"]}]}, {"group": "Grupo C", "teams": [{"team": "Marruecos", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Thom", "Sergio"]}, {"team": "Escocia", "count": 5, "voters": ["Diego", "Morrigan", "jose", "Thom", "Sergio"]}, {"team": "Haiti", "count": 2, "voters": ["Andrea", "Laura"]}]}, {"group": "Grupo D", "teams": [{"team": "Turquia", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura"]}, {"team": "Paraguay", "count": 4, "voters": ["jose", "Andrea", "Thom", "Sergio"]}, {"team": "Australia", "count": 3, "voters": ["Laura", "Thom", "Sergio"]}]}, {"group": "Grupo E", "teams": [{"team": "Costa de Marfil", "count": 6, "voters": ["Diego", "David", "Morrigan", "Andrea", "Laura", "Thom"]}]}, {"group": "Grupo F", "teams": [{"team": "Suecia", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Sergio"]}]}, {"group": "Grupo G", "teams": [{"team": "Egipto", "count": 6, "voters": ["Diego", "David", "Morrigan", "Laura", "Thom", "Sergio"]}, {"team": "Nueva Zelanda", "count": 4, "voters": ["jose", "Andrea", "Laura", "Sergio"]}, {"team": "Iran", "count": 3, "voters": ["Morrigan", "jose", "Thom"]}]}, {"group": "Grupo H", "teams": [{"team": "Arabia Saudi", "count": 3, "voters": ["Morrigan", "Laura", "Sergio"]}]}, {"group": "Grupo I", "teams": [{"team": "Senegal", "count": 7, "voters": ["Diego", "David", "Morrigan", "Andrea", "Laura", "Thom", "Sergio"]}]}, {"group": "Grupo J", "teams": [{"team": "Austria", "count": 6, "voters": ["Diego", "David", "jose", "Andrea", "Laura", "Sergio"]}, {"team": "Argelia", "count": 3, "voters": ["David", "jose", "Andrea"]}, {"team": "Jordania", "count": 3, "voters": ["Morrigan", "Thom", "Sergio"]}]}, {"group": "Grupo K", "teams": [{"team": "RD Congo", "count": 6, "voters": ["Diego", "David", "Morrigan", "jose", "Laura", "Sergio"]}]}, {"group": "Grupo L", "teams": [{"team": "Croacia", "count": 7, "voters": ["Diego", "David", "Morrigan", "jose", "Andrea", "Laura", "Thom"]}, {"team": "Ghana", "count": 4, "voters": ["Diego", "David", "jose", "Thom"]}, {"team": "Panama", "count": 2, "voters": ["Laura", "Sergio"]}]}], "omitted": ["Mexico", "Brasil", "USA", "Alemania", "Ecuador", "Paises Bajos", "Japón", "Belgica", "España", "Uruguay", "Francia", "Noruega", "Argentina", "Portugal", "Colombia", "Inglaterra"]};
 
 let day = 0, playing = false, iv = null;
 
-// ── Tabs ──────────────────────────────────────────────────────────────────────
 function switchTab(name, btn) {
   document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -165,7 +135,6 @@ function switchTab(name, btn) {
   btn.classList.add("active");
 }
 
-// ── Posiciones ────────────────────────────────────────────────────────────────
 function fmt(s) {
   const [y,m,d] = s.split("-");
   const ms = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -192,28 +161,22 @@ function moverHTML(curr, prev) {
 
 function render(idx) {
   const snap = DATA[idx];
-  const maxP = Math.max(...snap.posiciones.map(p => p.Puntos_Totales || p.Puntos || 0), 1);
+  const maxP = Math.max(...snap.posiciones.map(p => p.Puntos_Totales), 1);
   document.getElementById("date-pill").textContent = fmt(snap.fecha);
-  const sorted = [...snap.posiciones].sort((a,b) =>
-    (b.Puntos_Totales||b.Puntos||0) - (a.Puntos_Totales||a.Puntos||0)
-  );
+  const sorted = [...snap.posiciones].sort((a,b) => b.Puntos_Totales - a.Puntos_Totales);
 
   document.getElementById("chart").innerHTML = sorted.map((p) => {
-    const c       = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
-    const total   = p.Puntos_Totales || p.Puntos || 0;
-    const partidos = p.Puntos_Partidos || total;
-    const dt      = p.Puntos_DreamTeam || 0;
-    const pctP    = Math.max(Math.round((partidos / maxP) * 100), total > 0 ? 4 : 0);
-    const pctDT   = Math.round((dt / maxP) * 100);
-    const m       = medalFor(p.Posicion);
-    const prev    = prevPos(p.Nombre, idx);
-
-    const dtSection = dt > 0
-      ? `<div class="bar-dreamteam" style="width:${pctDT}%">
-           <span class="bar-dt-pts">⭐${dt}</span>
-         </div>`
+    const c        = COLORS[p.Nombre] || { fill:"#B4B2A9", text:"#2C2C2A" };
+    const total    = p.Puntos_Totales;
+    const partidos = p.Puntos_Partidos;
+    const dt       = p.Puntos_DreamTeam;
+    const pctP     = Math.max(Math.round((partidos / maxP) * 100), total > 0 ? 4 : 0);
+    const pctDT    = Math.round((dt / maxP) * 100);
+    const m        = medalFor(p.Posicion);
+    const prev     = prevPos(p.Nombre, idx);
+    const dtHTML   = dt > 0
+      ? `<div class="bar-dreamteam" style="width:${pctDT}%"><span class="bar-dt-pts">⭐${dt}</span></div>`
       : "";
-
     return `<div class="bar-row">
       <span class="rank" style="background:${m.bg}">${m.icon}</span>
       <span class="name">${p.Nombre}</span>
@@ -221,7 +184,7 @@ function render(idx) {
         <div class="bar-partidos" style="width:${pctP}%;background:${c.fill}">
           <span class="bar-pts" style="color:${c.text}">${partidos}</span>
         </div>
-        ${dtSection}
+        ${dtHTML}
       </div>
       ${moverHTML(p.Posicion, prev)}
       <span class="total-pts">${total}pts</span>
@@ -248,54 +211,40 @@ function togglePlay() {
     iv = setInterval(() => {
       day = (day + 1) % DATA.length;
       render(day);
-      if (day === DATA.length - 1) {
-        playing = false; btn.textContent = "▶ Animar"; clearInterval(iv);
-      }
+      if (day === DATA.length - 1) { playing = false; btn.textContent = "▶ Animar"; clearInterval(iv); }
     }, 1400);
-  } else {
-    btn.textContent = "▶ Animar"; clearInterval(iv);
-  }
+  } else { btn.textContent = "▶ Animar"; clearInterval(iv); }
 }
 
-// ── Nacionalidades ────────────────────────────────────────────────────────────
 function renderNac() {
   document.getElementById("nac-grid").innerHTML = NAC.cuervos.map(c => {
-    if (c.sin_datos) {
-      return `<div class="nac-card">
-        <span class="nac-bandera">🏳️</span>
-        <span class="nac-nombre">${c.nombre}</span>
-        <span class="nac-sin">Sin nacionalidad aún</span>
-      </div>`;
-    }
+    if (c.sin_datos) return `<div class="nac-card"><span class="nac-bandera">🏳️</span><span class="nac-nombre">${c.nombre}</span><span class="nac-sin">Sin nacionalidad aún</span></div>`;
     const banderas = c.nacionalidades.map(n => n.bandera).join(" ");
     const paises   = c.nacionalidades.map(n => n.pais).join(" & ");
-    const esDoble  = c.nacionalidades.length > 1;
     return `<div class="nac-card">
       <span class="nac-bandera">${banderas}</span>
       <span class="nac-nombre">${c.nombre}</span>
       <span class="nac-pais">${paises}</span>
       <span class="nac-puntos">${c.puntos_max} pts</span>
-      ${esDoble ? '<span class="nac-doble">Doble nacionalidad 🌍</span>' : ''}
+      ${c.nacionalidades.length > 1 ? '<span class="nac-doble">Doble nacionalidad 🌍</span>' : ''}
     </div>`;
   }).join("");
 }
 
-// ── Disputados ────────────────────────────────────────────────────────────────
 function renderDisputados() {
   const order = DISPUTADOS.participants;
   const total = order.length;
-  document.getElementById("ptotal").textContent  = total;
+  document.getElementById("ptotal").textContent   = total;
   document.getElementById("omitlist").textContent = DISPUTADOS.omitted.join(" · ");
   let disputed = 0;
   const wrap = document.getElementById("dis-groups");
   DISPUTADOS.groups.forEach(g => {
     if (!g.teams.length) return;
-    const letter   = g.group.split(" ").pop();
-    const teamWord = g.teams.length === 1 ? "equipo" : "equipos";
-    const sec      = document.createElement("section");
-    sec.innerHTML  = `<div class="dis-group-head">
+    const letter = g.group.split(" ").pop();
+    const sec = document.createElement("section");
+    sec.innerHTML = `<div class="dis-group-head">
       <span class="dis-group-tag">Grupo ${letter}</span>
-      <span class="dis-group-sub">${g.teams.length} ${teamWord} disputado${g.teams.length>1?"s":""}</span>
+      <span class="dis-group-sub">${g.teams.length} equipo${g.teams.length>1?"s":""} disputado${g.teams.length>1?"s":""}</span>
     </div>`;
     g.teams.forEach(t => {
       disputed++;
@@ -303,10 +252,7 @@ function renderDisputados() {
       const pct    = Math.round((t.count / total) * 100);
       const perch  = order.map(n => {
         const v = voters.has(n);
-        return `<span class="dis-slot ${v?"voted":"no'}">
-          <span class="dis-mark"></span>
-          <span class="dis-nm">${n}</span>
-        </span>`;
+        return `<span class="dis-slot ${v ? "voted" : "no"}"><span class="dis-mark"></span><span class="dis-nm">${n}</span></span>`;
       }).join("");
       const div = document.createElement("div");
       div.className = "dis-team";
